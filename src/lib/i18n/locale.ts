@@ -1,7 +1,7 @@
 export type Locale = 'en' | 'ru';
 
 /**
- * ro → ru (per product requirement), ru → ru, en → en; otherwise defaults to en.
+ * ro / mo → ru, ru → ru, en → en; otherwise defaults to en.
  */
 export function resolveLocale(acceptLanguage: string | null): Locale {
 	if (!acceptLanguage || !acceptLanguage.trim()) return 'en';
@@ -13,7 +13,7 @@ export function resolveLocale(acceptLanguage: string | null): Locale {
 		const base = tag.split('-')[0];
 		if (!base) continue;
 
-		if (base === 'ro') return 'ru';
+		if (base === 'ro' || base === 'mo') return 'ru';
 		if (base === 'ru') return 'ru';
 		if (base === 'en') return 'en';
 	}
