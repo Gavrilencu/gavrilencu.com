@@ -1,0 +1,24 @@
+[Unit]
+Description=SvelteKit — gavrilencu.com
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/gavrilencu.com
+Environment=NODE_ENV=production
+Environment=PORT=3001
+Environment=HOST=127.0.0.1
+Environment=ORIGIN=https://gavrilencu.com
+ExecStart=/usr/bin/node build/index.js
+Restart=on-failure
+RestartSec=5
+# Jurnal: journalctl -u gavrilencu -f
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=gavrilencu
+
+[Install]
+WantedBy=multi-user.target

@@ -34,8 +34,8 @@
 			class="rounded-lg text-center transition {isMobile
 				? 'min-h-11 min-w-[3rem] px-3 py-2.5'
 				: 'px-3 py-2 sm:px-2.5 sm:py-1.5'} {locale === opt.code
-				? 'bg-cyan-500/25 text-cyan-100 shadow-sm shadow-cyan-500/10'
-				: 'text-slate-500 hover:bg-white/5 hover:text-slate-200'}"
+				? 'bg-emerald-500/20 text-emerald-100'
+				: 'text-zinc-500 hover:bg-white/5 hover:text-zinc-200'}"
 			aria-current={locale === opt.code ? 'true' : undefined}
 		>
 			{opt.label}

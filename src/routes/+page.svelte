@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { inview } from '$lib/actions/inview';
 	import Scene3D from '$lib/components/Scene3D.svelte';
 	import SiteHeader from '$lib/components/SiteHeader.svelte';
 	import type { Locale } from '$lib/i18n/locale';
 	import { getMessages } from '$lib/i18n/messages';
 	import { site } from '$lib/site';
 	import {
+		ArrowUpRight,
+		BadgeCheck,
 		Bluetooth,
 		Bot,
 		Box,
@@ -22,8 +25,7 @@
 		Smartphone,
 		Sparkles,
 		Terminal,
-		Wrench,
-		Zap
+		Wrench
 	} from 'lucide-svelte';
 
 	const locale = $derived((page.data.locale ?? 'en') as Locale);
@@ -37,11 +39,21 @@
 			icon: projectIcons[i]!
 		}))
 	);
+
+	const skillBlocks = $derived([
+		{ title: t.langProg, items: t.limbi, icon: Code2 },
+		{ title: t.backend, items: t.backendList, icon: Server },
+		{ title: t.frontendMobile, items: t.frontendList, icon: Layers },
+		{ title: t.databases, items: t.dbList, icon: Database },
+		{ title: t.devops, items: t.devopsList, icon: Container },
+		{ title: t.networkingApi, items: t.networkingList, icon: Network },
+		{ title: t.otherTech, items: t.alteleList, icon: Radio }
+	]);
 </script>
 
 <Scene3D />
 
-<div class="relative z-10">
+<div class="page-atmos relative z-10">
 	<SiteHeader
 		nav={t.nav}
 		a11yOpenMenu={t.a11yOpenMenu}
@@ -50,294 +62,247 @@
 		mobileNavAriaLabel={t.mobileNavAriaLabel}
 	/>
 
-	<main>
+	<main class="text-zinc-300">
+		<!-- Hero -->
 		<section
 			id="about"
-			class="relative mx-auto flex min-h-[78dvh] max-w-6xl flex-col justify-center px-4 pb-16 pt-12 sm:min-h-[88vh] sm:px-6 sm:pb-20 sm:pt-16"
+			class="relative mx-auto max-w-6xl px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-24 lg:pb-32"
 		>
-			<div
-				class="pointer-events-none absolute -left-32 top-1/4 h-72 w-72 rounded-full bg-cyan-500/15 blur-[100px]"
-			></div>
-			<div
-				class="pointer-events-none absolute -right-24 bottom-10 h-80 w-80 rounded-full bg-violet-600/20 blur-[110px]"
-			></div>
+			<div>
+				<p class="section-label hero-in mb-6">{t.kickerHero}</p>
+				<h1
+					class="font-display hero-in hero-in-d1 text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl"
+				>
+					{site.name}
+				</h1>
+				<p
+					class="font-display hero-in hero-in-d2 mt-4 text-xl font-normal text-zinc-500 sm:text-2xl md:text-3xl"
+				>
+					<span class="text-accent-gradient">{t.tagline}</span>
+				</p>
+				<p
+					class="hero-in hero-in-d3 mt-8 max-w-xl text-pretty text-base leading-relaxed text-zinc-400 sm:text-lg"
+				>
+					{t.heroIntro}
+				</p>
 
-			<p
-				class="mb-3 inline-flex max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.65rem] font-medium uppercase leading-tight tracking-widest text-cyan-300/90 sm:mb-4 sm:py-1 sm:text-xs"
-			>
-				<Zap class="h-3.5 w-3.5 shrink-0" />
-				<span class="text-balance">{t.heroBadge}</span>
-			</p>
-			<h1
-				class="max-w-3xl text-[clamp(1.65rem,6vw+0.5rem,2.5rem)] font-bold leading-[1.12] tracking-tight text-white sm:text-5xl sm:leading-tight md:text-6xl lg:text-7xl"
-			>
-				<span class="block text-balance">{site.name}</span>
-				<span
-					class="mt-2 block text-balance bg-gradient-to-r from-cyan-300 via-sky-200 to-violet-300 bg-clip-text text-[0.92em] text-transparent sm:text-inherit"
-				>
-					{t.tagline}
-				</span>
-			</h1>
-			<p
-				class="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-slate-400 sm:mt-6 sm:text-lg md:text-xl"
-			>
-				{t.heroIntro}
-			</p>
-			<div class="mt-8 flex w-full max-w-md flex-col gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:flex-wrap">
-				<a
-					href="#skills"
-					class="inline-flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl bg-gradient-to-r from-cyan-500 to-sky-500 px-6 py-3.5 text-base font-semibold text-slate-950 shadow-lg shadow-cyan-500/25 transition hover:brightness-110 active:brightness-95 sm:min-h-0 sm:w-auto sm:py-3 sm:text-sm"
-				>
-					{t.ctaStack}
-				</a>
-				<a
-					href="#contact"
-					class="inline-flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl border border-white/15 bg-white/5 px-6 py-3.5 text-base font-semibold text-white backdrop-blur transition hover:border-cyan-400/40 hover:bg-white/10 active:bg-white/15 sm:min-h-0 sm:w-auto sm:py-3 sm:text-sm"
-				>
-					{t.ctaContact}
-				</a>
+				<nav class="hero-in hero-in-d3 mt-10 flex flex-wrap gap-2" aria-label="On this page">
+					{#each t.nav.filter((n) => n.href !== '#about') as item (item.href)}
+						<a
+							href={item.href}
+							class="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-zinc-400 transition hover:border-emerald-500/30 hover:text-white"
+						>
+							{item.label}
+						</a>
+					{/each}
+				</nav>
+
+				<div class="hero-in hero-in-d4 mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+					<a
+						href="#skills"
+						class="inline-flex min-h-12 items-center justify-center rounded-full bg-emerald-400 px-8 py-3.5 text-sm font-semibold text-zinc-950 transition hover:bg-emerald-300 active:scale-[0.98]"
+					>
+						{t.ctaStack}
+					</a>
+					<a
+						href="#contact"
+						class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/15 px-8 py-3.5 text-sm font-semibold text-white transition hover:border-white/25 hover:bg-white/[0.04] active:scale-[0.98]"
+					>
+						{t.ctaContact}
+						<ArrowUpRight class="h-4 w-4 opacity-70" strokeWidth={2} />
+					</a>
+				</div>
 			</div>
 		</section>
 
-		<section id="skills" class="border-t border-white/5 bg-slate-950/40 py-14 sm:py-20 md:py-28">
+		<!-- Skills -->
+		<section id="skills" class="border-t border-white/[0.06] py-20 sm:py-28">
 			<div class="mx-auto max-w-6xl px-4 sm:px-6">
-				<div class="max-w-2xl">
-					<h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">{t.skillsTitle}</h2>
-					<p class="mt-2 text-pretty text-sm leading-relaxed text-slate-400 sm:mt-3 sm:text-base">
+				<header class="wow-in mb-16 max-w-2xl lg:mb-20" use:inview>
+					<p class="section-label mb-4">{t.kickerStack}</p>
+					<h2 class="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+						{t.skillsTitle}
+					</h2>
+					<p class="mt-4 text-pretty text-base leading-relaxed text-zinc-500 sm:text-lg">
 						{t.skillsSubtitle}
 					</p>
-				</div>
+				</header>
 
-				<div class="mt-8 grid gap-4 sm:mt-12 sm:gap-6 lg:grid-cols-2">
-					<article
-						class="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-transparent p-4 shadow-xl shadow-black/20 backdrop-blur-sm sm:p-6"
-					>
-						<div class="mb-4 flex items-center gap-2 text-cyan-300">
-							<Code2 class="h-5 w-5" strokeWidth={2} />
-							<h3 class="text-lg font-semibold text-white">{t.langProg}</h3>
+				<div class="space-y-14 sm:space-y-16">
+					{#each skillBlocks as block}
+						{@const Icon = block.icon}
+						<div class="wow-in lg:grid lg:grid-cols-12 lg:gap-10" use:inview>
+							<div class="mb-6 flex items-center gap-3 lg:col-span-4 lg:mb-0">
+								<span
+									class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-300"
+								>
+									<Icon class="h-5 w-5" strokeWidth={2} />
+								</span>
+								<h3 class="font-display text-lg font-semibold text-white">{block.title}</h3>
+							</div>
+							<div class="flex flex-wrap gap-2 lg:col-span-8">
+								{#each block.items as row}
+									<span class="pill-tag text-pretty">{row}</span>
+								{/each}
+							</div>
 						</div>
-						<ul class="space-y-2.5 text-slate-300">
-							{#each t.limbi as row}
-								<li class="flex gap-2.5 text-[0.9375rem] leading-relaxed sm:text-sm">
-									<span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400/80"></span>
-									<span class="min-w-0">{row}</span>
-								</li>
-							{/each}
-						</ul>
-					</article>
-
-					<div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-						<article
-							class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm sm:p-5"
-						>
-							<div class="mb-3 flex items-center gap-2 text-violet-300">
-								<Server class="h-5 w-5" />
-								<h3 class="font-semibold text-white">{t.backend}</h3>
-							</div>
-							<ul class="space-y-1.5 text-[0.9375rem] text-slate-400 sm:text-sm">
-								{#each t.backendList as row}
-									<li class="text-pretty">{row}</li>
-								{/each}
-							</ul>
-						</article>
-						<article
-							class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm sm:p-5"
-						>
-							<div class="mb-3 flex items-center gap-2 text-sky-300">
-								<Layers class="h-5 w-5" />
-								<h3 class="font-semibold text-white">{t.frontendMobile}</h3>
-							</div>
-							<ul class="space-y-1.5 text-[0.9375rem] text-slate-400 sm:text-sm">
-								{#each t.frontendList as row}
-									<li>{row}</li>
-								{/each}
-							</ul>
-						</article>
-						<article
-							class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm sm:p-5"
-						>
-							<div class="mb-3 flex items-center gap-2 text-emerald-300">
-								<Database class="h-5 w-5" />
-								<h3 class="font-semibold text-white">{t.databases}</h3>
-							</div>
-							<ul class="space-y-1.5 text-[0.9375rem] text-slate-400 sm:text-sm">
-								{#each t.dbList as row}
-									<li>{row}</li>
-								{/each}
-							</ul>
-						</article>
-						<article
-							class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-sm sm:p-5"
-						>
-							<div class="mb-3 flex items-center gap-2 text-amber-300">
-								<Container class="h-5 w-5" />
-								<h3 class="font-semibold text-white">{t.devops}</h3>
-							</div>
-							<ul class="space-y-1.5 text-[0.9375rem] text-slate-400 sm:text-sm">
-								{#each t.devopsList as row}
-									<li>{row}</li>
-								{/each}
-							</ul>
-						</article>
-					</div>
-				</div>
-
-				<div class="mt-6 grid gap-4 sm:mt-8 sm:gap-6 md:grid-cols-2">
-					<article
-						class="rounded-2xl border border-cyan-500/20 bg-cyan-950/20 p-4 backdrop-blur-sm sm:p-6"
-					>
-						<div class="mb-3 flex items-center gap-2 text-cyan-200">
-							<Network class="h-5 w-5" />
-							<h3 class="font-semibold text-white">{t.networkingApi}</h3>
-						</div>
-						<ul class="space-y-1.5 text-[0.9375rem] text-slate-400 sm:text-sm">
-							{#each t.networkingList as row}
-								<li>{row}</li>
-							{/each}
-						</ul>
-					</article>
-					<article
-						class="rounded-2xl border border-violet-500/20 bg-violet-950/20 p-4 backdrop-blur-sm sm:p-6"
-					>
-						<div class="mb-3 flex items-center gap-2 text-violet-200">
-							<Radio class="h-5 w-5" />
-							<h3 class="font-semibold text-white">{t.otherTech}</h3>
-						</div>
-						<ul class="space-y-1.5 text-[0.9375rem] text-slate-400 sm:text-sm">
-							{#each t.alteleList as row}
-								<li>{row}</li>
-							{/each}
-						</ul>
-					</article>
+					{/each}
 				</div>
 			</div>
 		</section>
 
-		<section id="projects" class="py-14 sm:py-20 md:py-28">
+		<!-- Projects -->
+		<section id="projects" class="border-t border-white/[0.06] py-20 sm:py-28">
 			<div class="mx-auto max-w-6xl px-4 sm:px-6">
-				<h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">{t.projectsTitle}</h2>
-				<p class="mt-2 max-w-2xl text-pretty text-sm leading-relaxed text-slate-400 sm:mt-3 sm:text-base">
-					{t.projectsSubtitle}
-				</p>
-				<div class="mt-8 grid grid-cols-1 gap-3 sm:mt-12 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
-					{#each proiecte as p}
+				<header class="wow-in mb-12 lg:mb-16" use:inview>
+					<p class="section-label mb-4">{t.kickerWork}</p>
+					<h2 class="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+						{t.projectsTitle}
+					</h2>
+					<p class="mt-4 max-w-2xl text-pretty text-base text-zinc-500 sm:text-lg">
+						{t.projectsSubtitle}
+					</p>
+				</header>
+
+				<div class="stagger-fade divide-y divide-white/[0.08]" use:inview>
+					{#each proiecte as p, i}
 						{@const Icon = p.icon}
-						<article
-							class="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition hover:border-cyan-400/30 hover:bg-white/[0.06] sm:p-5"
-						>
-							<div
-								class="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br from-cyan-500/10 to-violet-500/10 blur-2xl transition group-hover:opacity-100"
-							></div>
-							<div
-								class="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/15 to-violet-500/20 text-cyan-200 ring-1 ring-white/10"
+						<article class="surface-hover flex gap-5 py-8 sm:gap-8 sm:py-10">
+							<span
+								class="font-display hidden w-12 shrink-0 text-2xl font-light text-zinc-700 sm:block sm:text-3xl"
 							>
-								<Icon class="h-5 w-5" strokeWidth={2} />
+								{String(i + 1).padStart(2, '0')}
+							</span>
+							<div class="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:items-start sm:gap-8">
+								<span
+									class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-violet-200"
+								>
+									<Icon class="h-5 w-5" strokeWidth={2} />
+								</span>
+								<div class="min-w-0">
+									<h3 class="font-display text-lg font-semibold text-white sm:text-xl">{p.title}</h3>
+									<p class="mt-2 max-w-2xl text-pretty text-sm leading-relaxed text-zinc-500 sm:text-base">
+										{p.desc}
+									</p>
+								</div>
 							</div>
-							<h3 class="text-base font-semibold leading-snug text-white sm:text-[1.05rem]">{p.title}</h3>
-							<p class="mt-2 text-sm leading-relaxed text-slate-400">{p.desc}</p>
 						</article>
 					{/each}
 				</div>
 			</div>
 		</section>
 
-		<section id="approach" class="border-t border-white/5 bg-slate-950/50 py-14 sm:py-20 md:py-28">
+		<!-- Approach -->
+		<section id="approach" class="border-t border-white/[0.06] py-20 sm:py-28">
 			<div class="mx-auto max-w-6xl px-4 sm:px-6">
-				<div class="grid gap-8 lg:grid-cols-3 lg:gap-12">
-					<div class="lg:col-span-1">
-						<h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">{t.styleTitle}</h2>
-						<p class="mt-3 text-pretty text-sm leading-relaxed text-slate-400 sm:mt-4 sm:text-base">
-							{t.styleBody}
-						</p>
-					</div>
-					<div class="lg:col-span-2 grid gap-4 sm:grid-cols-2 sm:gap-6">
-						<article class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-6">
-							<h3 class="flex items-center gap-2 text-lg font-semibold text-white">
-								<Zap class="h-5 w-5 text-amber-300" />
-								{t.directionTitle}
-							</h3>
-							<ul class="mt-4 space-y-2 text-sm text-slate-400">
-								{#each t.directionBullets as line}
-									<li>{line}</li>
-								{/each}
-							</ul>
-							<div
-								class="mt-5 overflow-x-auto rounded-xl border border-white/10 bg-slate-900/50 p-3 font-mono text-[0.7rem] text-slate-300 sm:mt-6 sm:p-4 sm:text-xs"
-							>
-								<p class="text-cyan-400/90">{t.stackComment}</p>
-								{#each t.stackLines as line, i}
-									<p class:mt-2={i === 0}>{line}</p>
-								{/each}
+				<div class="wow-in mb-16 lg:mb-20" use:inview>
+					<p class="section-label mb-4">{t.kickerApproach}</p>
+					<h2 class="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+						{t.styleTitle}
+					</h2>
+					<p class="mt-6 max-w-3xl text-pretty text-lg leading-relaxed text-zinc-400 sm:text-xl">
+						{t.styleBody}
+					</p>
+				</div>
+
+				<div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
+					<article class="surface surface-hover wow-in rounded-2xl p-6 sm:p-8" use:inview>
+						<div class="flex items-center gap-2 text-emerald-400">
+							<Sparkles class="h-5 w-5" strokeWidth={2} />
+							<span class="font-mono text-xs uppercase tracking-widest">{t.directionTitle}</span>
+						</div>
+						<ul class="mt-6 space-y-3 text-sm leading-relaxed text-zinc-400 sm:text-base">
+							{#each t.directionBullets as line}
+								<li class="flex gap-3">
+									<span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-emerald-500/80"></span>
+									<span>{line}</span>
+								</li>
+							{/each}
+						</ul>
+						<div
+							class="mt-8 overflow-x-auto rounded-xl border border-white/[0.08] bg-zinc-950/80 p-4 font-mono text-[0.7rem] leading-relaxed text-zinc-400 sm:text-xs"
+						>
+							<p class="text-emerald-400/90">{t.stackComment}</p>
+							{#each t.stackLines as line, j}
+								<p class:mt-2={j === 0}>{line}</p>
+							{/each}
+						</div>
+					</article>
+
+					<article class="surface surface-hover wow-in rounded-2xl p-6 sm:p-8" use:inview>
+						<div>
+							<div class="flex items-center gap-2 text-violet-300">
+								<BadgeCheck class="h-5 w-5" strokeWidth={2} />
+								<span class="font-mono text-xs uppercase tracking-widest">{t.levelTitle}</span>
 							</div>
-						</article>
-						<article class="rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-6">
-							<h3 class="flex items-center gap-2 text-lg font-semibold text-white">
-								<Sparkles class="h-5 w-5 text-violet-300" />
-								{t.levelTitle}
-							</h3>
-							<p class="mt-3 text-sm font-medium text-cyan-200">{t.levelBand}</p>
-							<p class="mt-4 text-sm font-semibold text-white">{t.strengthsTitle}</p>
-							<ul class="mt-2 space-y-1.5 text-sm text-slate-400">
+							<p class="mt-4 text-sm font-medium text-emerald-200/90">{t.levelBand}</p>
+							<p class="mt-6 text-sm font-semibold text-white">{t.strengthsTitle}</p>
+							<ul class="mt-2 space-y-2 text-sm text-zinc-500">
 								{#each t.strengths as line}
 									<li>{line}</li>
 								{/each}
 							</ul>
-							<p class="mt-4 text-sm font-semibold text-white">{t.growingTitle}</p>
-							<ul class="mt-2 space-y-1.5 text-sm text-slate-400">
+							<p class="mt-6 text-sm font-semibold text-white">{t.growingTitle}</p>
+							<ul class="mt-2 space-y-2 text-sm text-zinc-500">
 								{#each t.growing as line}
 									<li>{line}</li>
 								{/each}
 							</ul>
-						</article>
-					</div>
+						</div>
+					</article>
 				</div>
 			</div>
 		</section>
 
-		<section id="contact" class="pb-[max(5rem,env(safe-area-inset-bottom))] pt-6 sm:pb-24 sm:pt-8">
+		<!-- Contact -->
+		<section
+			id="contact"
+			class="border-t border-white/[0.06] pb-[max(4rem,env(safe-area-inset-bottom))] pt-16 sm:pb-24 sm:pt-20"
+		>
 			<div class="mx-auto max-w-6xl px-4 sm:px-6">
-				<div
-					class="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-cyan-500/10 via-slate-900/80 to-violet-600/15 p-5 sm:rounded-3xl sm:p-8 md:p-12"
-				>
-					<div
-						class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(34,211,238,0.12),transparent_50%)]"
-					></div>
-					<div class="relative">
-						<h2 class="text-xl font-bold leading-snug text-white sm:text-2xl md:text-3xl">{t.contactTitle}</h2>
-						<p class="mt-2 max-w-xl text-pretty text-sm leading-relaxed text-slate-400 sm:text-base">
-							{t.contactSubtitle}
-						</p>
-						<div class="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
+				<div class="wow-in flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between" use:inview>
+					<div class="max-w-xl">
+						<p class="section-label mb-4">{t.kickerContact}</p>
+						<h2 class="font-display text-3xl font-semibold text-white sm:text-4xl">{t.contactTitle}</h2>
+						<p class="mt-4 text-pretty text-base text-zinc-500 sm:text-lg">{t.contactSubtitle}</p>
+					</div>
+					<div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+						<a
+							href={`mailto:${site.email}`}
+							class="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-zinc-950 transition hover:bg-zinc-200 active:scale-[0.98]"
+						>
+							{t.emailLabel}
+						</a>
+						{#if site.telegramUrl}
 							<a
-								href={`mailto:${site.email}`}
-								class="inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-xl bg-white px-5 py-3.5 text-base font-semibold text-slate-950 transition hover:bg-cyan-100 active:bg-cyan-200 sm:min-h-0 sm:w-auto sm:py-3 sm:text-sm"
+								href={site.telegramUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 px-8 py-3.5 text-sm font-semibold text-white transition hover:border-sky-400/40 hover:bg-white/[0.04] active:scale-[0.98]"
 							>
-								{t.emailLabel}
+								{t.telegramLabel}
 							</a>
-							{#if site.githubUrl}
-								<a
-									href={site.githubUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3.5 text-base font-semibold text-white transition hover:border-cyan-400/40 active:bg-white/10 sm:min-h-0 sm:w-auto sm:py-3 sm:text-sm"
-								>
-									GitHub
-								</a>
-							{/if}
-							{#if site.linkedinUrl}
-								<a
-									href={site.linkedinUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="inline-flex min-h-12 w-full touch-manipulation items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3.5 text-base font-semibold text-white transition hover:border-violet-400/40 active:bg-white/10 sm:min-h-0 sm:w-auto sm:py-3 sm:text-sm"
-								>
-									LinkedIn
-								</a>
-							{/if}
-						</div>
-						<!-- <p class="mt-5 break-words font-mono text-[0.65rem] leading-relaxed text-slate-500 sm:mt-6 sm:text-xs">
-							{t.footerNote}
-						</p> -->
+						{/if}
+						{#if site.githubUrl}
+							<a
+								href={site.githubUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 px-8 py-3.5 text-sm font-semibold text-white transition hover:border-emerald-500/35 hover:bg-white/[0.04] active:scale-[0.98]"
+							>
+								GitHub
+							</a>
+						{/if}
+						{#if site.linkedinUrl}
+							<a
+								href={site.linkedinUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 px-8 py-3.5 text-sm font-semibold text-white transition hover:border-violet-400/35 hover:bg-white/[0.04] active:scale-[0.98]"
+							>
+								LinkedIn
+							</a>
+						{/if}
 					</div>
 				</div>
 			</div>
@@ -345,11 +310,8 @@
 	</main>
 
 	<footer
-		class="border-t border-white/5 px-4 py-6 text-center text-xs leading-relaxed text-slate-500 sm:py-8 sm:text-sm"
+		class="border-t border-white/[0.06] px-4 py-10 text-center text-xs text-zinc-600 sm:py-12 sm:text-sm"
 	>
-		<p class="text-pretty">
-			© {new Date().getFullYear()}
-			{site.name}. {t.footerBuilt}
-		</p>
+		<p class="text-pretty">© {new Date().getFullYear()} {site.name}</p>
 	</footer>
 </div>

@@ -40,12 +40,16 @@ export type Messages = {
 	contactTitle: string;
 	contactSubtitle: string;
 	emailLabel: string;
-	footerNote: string;
-	footerBuilt: string;
+	telegramLabel: string;
 	a11yOpenMenu: string;
 	a11yCloseMenu: string;
 	a11yCloseOverlay: string;
 	mobileNavAriaLabel: string;
+	kickerHero: string;
+	kickerStack: string;
+	kickerWork: string;
+	kickerApproach: string;
+	kickerContact: string;
 	limbi: string[];
 	backendList: string[];
 	frontendList: string[];
@@ -130,12 +134,16 @@ const en: Messages = {
 	contactTitle: "Let's build something solid.",
 	contactSubtitle: 'For collaborations, freelance, or technical discussions — get in touch.',
 	emailLabel: 'Email',
-	footerNote: 'Update src/lib/site.ts with your email and social links.',
-	footerBuilt: 'Built with SvelteKit, Tailwind & Three.js.',
+	telegramLabel: 'Telegram',
 	a11yOpenMenu: 'Open menu',
 	a11yCloseMenu: 'Close menu',
 	a11yCloseOverlay: 'Close menu',
 	mobileNavAriaLabel: 'Site navigation',
+	kickerHero: 'Portfolio · 2025',
+	kickerStack: 'Stack',
+	kickerWork: 'Work',
+	kickerApproach: 'Approach',
+	kickerContact: 'Contact',
 	limbi: [
 		'Python — scripting, automation, backend, data processing',
 		'JavaScript / TypeScript — frontend & backend (Node.js)',
@@ -257,12 +265,16 @@ const ru: Messages = {
 	contactTitle: 'Давайте сделаем что-то надёжное.',
 	contactSubtitle: 'Сотрудничество, фриланс или технические вопросы — напишите.',
 	emailLabel: 'Почта',
-	footerNote: 'Обновите src/lib/site.ts: email и ссылки на соцсети.',
-	footerBuilt: 'Сделано на SvelteKit, Tailwind и Three.js.',
+	telegramLabel: 'Telegram',
 	a11yOpenMenu: 'Открыть меню',
 	a11yCloseMenu: 'Закрыть меню',
 	a11yCloseOverlay: 'Закрыть меню',
 	mobileNavAriaLabel: 'Навигация по сайту',
+	kickerHero: 'Портфолио · 2025',
+	kickerStack: 'Стек',
+	kickerWork: 'Работы',
+	kickerApproach: 'Подход',
+	kickerContact: 'Контакты',
 	limbi: [
 		'Python — скрипты, автоматизация, бэкенд, обработка данных',
 		'JavaScript / TypeScript — фронтенд и бэкенд (Node.js)',

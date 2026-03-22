@@ -3,7 +3,8 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
-	--font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+	--font-sans: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+	--font-display: 'Outfit', ui-sans-serif, system-ui, sans-serif;
 	--font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
@@ -11,7 +12,7 @@
 	@media (hover: none) {
 		a,
 		button {
-			-webkit-tap-highlight-color: rgba(34, 211, 238, 0.12);
+			-webkit-tap-highlight-color: rgba(52, 211, 153, 0.12);
 		}
 	}
 	html {
@@ -22,4 +23,180 @@
 			scroll-behavior: auto;
 		}
 	}
+}
+
+.page-atmos {
+	position: relative;
+}
+.page-atmos::before {
+	content: '';
+	pointer-events: none;
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	opacity: 0.4;
+	background-image: radial-gradient(circle at 20% 0%, rgba(52, 211, 153, 0.07), transparent 45%),
+		radial-gradient(circle at 85% 20%, rgba(167, 139, 250, 0.06), transparent 40%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.page-atmos::before {
+		opacity: 0.25;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	@keyframes hero-in {
+		from {
+			opacity: 0;
+			transform: translate3d(0, 1.25rem, 0);
+		}
+		to {
+			opacity: 1;
+			transform: translate3d(0, 0, 0);
+		}
+	}
+	.hero-in {
+		animation: hero-in 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+	}
+	.hero-in-d1 {
+		animation-delay: 0.08s;
+	}
+	.hero-in-d2 {
+		animation-delay: 0.16s;
+	}
+	.hero-in-d3 {
+		animation-delay: 0.24s;
+	}
+	.hero-in-d4 {
+		animation-delay: 0.32s;
+	}
+}
+
+.text-accent-gradient {
+	background: linear-gradient(120deg, #6ee7b7 0%, #34d399 40%, #a78bfa 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.surface {
+	background: rgba(255, 255, 255, 0.02);
+	border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.surface-hover {
+	transition:
+		border-color 0.25s ease,
+		background 0.25s ease,
+		transform 0.25s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+	.surface-hover:hover {
+		border-color: rgba(52, 211, 153, 0.22);
+		background: rgba(255, 255, 255, 0.04);
+		transform: translateY(-2px);
+	}
+}
+
+.wow-in {
+	opacity: 0;
+	transform: translate3d(0, 1.5rem, 0);
+	transition:
+		opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+		transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.wow-in.wow-visible {
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-in,
+	.hero-in-d1,
+	.hero-in-d2,
+	.hero-in-d3,
+	.hero-in-d4 {
+		animation: none;
+		opacity: 1;
+		transform: none;
+	}
+	.wow-in {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.stagger-fade.wow-in:not(.wow-visible) > * {
+		opacity: 0;
+		transform: translate3d(0, 1rem, 0);
+	}
+	.stagger-fade.wow-in.wow-visible > * {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+		transition:
+			opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+			transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+	.stagger-fade.wow-in.wow-visible > *:nth-child(1) {
+		transition-delay: 0.04s;
+	}
+	.stagger-fade.wow-in.wow-visible > *:nth-child(2) {
+		transition-delay: 0.08s;
+	}
+	.stagger-fade.wow-in.wow-visible > *:nth-child(3) {
+		transition-delay: 0.12s;
+	}
+	.stagger-fade.wow-in.wow-visible > *:nth-child(4) {
+		transition-delay: 0.16s;
+	}
+	.stagger-fade.wow-in.wow-visible > *:nth-child(5) {
+		transition-delay: 0.2s;
+	}
+	.stagger-fade.wow-in.wow-visible > *:nth-child(6) {
+		transition-delay: 0.24s;
+	}
+	.stagger-fade.wow-in.wow-visible > *:nth-child(7) {
+		transition-delay: 0.28s;
+	}
+	.stagger-fade.wow-in.wow-visible > *:nth-child(8) {
+		transition-delay: 0.32s;
+	}
+	.stagger-fade.wow-in.wow-visible > *:nth-child(9) {
+		transition-delay: 0.36s;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.stagger-fade > * {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.font-display {
+	font-family: var(--font-display);
+}
+
+.section-label {
+	font-family: var(--font-mono);
+	font-size: 0.7rem;
+	font-weight: 500;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	color: rgba(52, 211, 153, 0.85);
+}
+
+.pill-tag {
+	display: inline-flex;
+	align-items: center;
+	border-radius: 9999px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	background: rgba(255, 255, 255, 0.03);
+	padding: 0.35rem 0.85rem;
+	font-size: 0.8125rem;
+	line-height: 1.4;
+	color: rgba(228, 228, 231, 0.92);
 }
