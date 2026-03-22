@@ -8,7 +8,6 @@
 	import { site } from '$lib/site';
 	import {
 		ArrowUpRight,
-		BadgeCheck,
 		Bluetooth,
 		Bot,
 		Box,
@@ -205,52 +204,28 @@
 					</p>
 				</div>
 
-				<div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
-					<article class="surface surface-hover wow-in rounded-2xl p-6 sm:p-8" use:inview>
-						<div class="flex items-center gap-2 text-emerald-400">
-							<Sparkles class="h-5 w-5" strokeWidth={2} />
-							<span class="font-mono text-xs uppercase tracking-widest">{t.directionTitle}</span>
-						</div>
-						<ul class="mt-6 space-y-3 text-sm leading-relaxed text-zinc-400 sm:text-base">
-							{#each t.directionBullets as line}
-								<li class="flex gap-3">
-									<span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-emerald-500/80"></span>
-									<span>{line}</span>
-								</li>
-							{/each}
-						</ul>
-						<div
-							class="mt-8 overflow-x-auto rounded-xl border border-white/[0.08] bg-zinc-950/80 p-4 font-mono text-[0.7rem] leading-relaxed text-zinc-400 sm:text-xs"
-						>
-							<p class="text-emerald-400/90">{t.stackComment}</p>
-							{#each t.stackLines as line, j}
-								<p class:mt-2={j === 0}>{line}</p>
-							{/each}
-						</div>
-					</article>
-
-					<article class="surface surface-hover wow-in rounded-2xl p-6 sm:p-8" use:inview>
-						<div>
-							<div class="flex items-center gap-2 text-violet-300">
-								<BadgeCheck class="h-5 w-5" strokeWidth={2} />
-								<span class="font-mono text-xs uppercase tracking-widest">{t.levelTitle}</span>
-							</div>
-							<p class="mt-4 text-sm font-medium text-emerald-200/90">{t.levelBand}</p>
-							<p class="mt-6 text-sm font-semibold text-white">{t.strengthsTitle}</p>
-							<ul class="mt-2 space-y-2 text-sm text-zinc-500">
-								{#each t.strengths as line}
-									<li>{line}</li>
-								{/each}
-							</ul>
-							<p class="mt-6 text-sm font-semibold text-white">{t.growingTitle}</p>
-							<ul class="mt-2 space-y-2 text-sm text-zinc-500">
-								{#each t.growing as line}
-									<li>{line}</li>
-								{/each}
-							</ul>
-						</div>
-					</article>
-				</div>
+				<article class="surface surface-hover wow-in max-w-3xl rounded-2xl p-6 sm:p-8" use:inview>
+					<div class="flex items-center gap-2 text-emerald-400">
+						<Sparkles class="h-5 w-5" strokeWidth={2} />
+						<span class="font-mono text-xs uppercase tracking-widest">{t.directionTitle}</span>
+					</div>
+					<ul class="mt-6 space-y-3 text-sm leading-relaxed text-zinc-400 sm:text-base">
+						{#each t.directionBullets as line}
+							<li class="flex gap-3">
+								<span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-emerald-500/80"></span>
+								<span>{line}</span>
+							</li>
+						{/each}
+					</ul>
+					<div
+						class="mt-8 overflow-x-auto rounded-xl border border-white/[0.08] bg-zinc-950/80 p-4 font-mono text-[0.7rem] leading-relaxed text-zinc-400 sm:text-xs"
+					>
+						<p class="text-emerald-400/90">{t.stackComment}</p>
+						{#each t.stackLines as line, j}
+							<p class:mt-2={j === 0}>{line}</p>
+						{/each}
+					</div>
+				</article>
 			</div>
 		</section>
 

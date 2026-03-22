@@ -30,12 +30,6 @@ export type Messages = {
 	directionTitle: string;
 	directionBullets: string[];
 	stackComment: string;
-	levelTitle: string;
-	levelBand: string;
-	strengthsTitle: string;
-	strengths: string[];
-	growingTitle: string;
-	growing: string[];
 	stackLines: string[];
 	contactTitle: string;
 	contactSubtitle: string;
@@ -109,21 +103,6 @@ const en: Messages = {
 		'• Complex systems (CRM, platforms, services)'
 	],
 	stackComment: '// preferred stack',
-	levelTitle: 'Professional level',
-	levelBand: 'Junior → Mid',
-	strengthsTitle: 'Strengths',
-	strengths: [
-		'• Backend & business logic',
-		'• Databases (including enterprise Oracle)',
-		'• System integration',
-		'• Automation'
-	],
-	growingTitle: 'Growing in',
-	growing: [
-		'• Scaling & distributed architectures',
-		'• Advanced cloud & DevOps',
-		'• Advanced UI/UX'
-	],
 	stackLines: [
 		'FE: SvelteKit',
 		'Mobile: RN / Capacitor',
@@ -240,21 +219,6 @@ const ru: Messages = {
 		'• Сложные системы (CRM, платформы, сервисы)'
 	],
 	stackComment: '// предпочитаемый стек',
-	levelTitle: 'Профессиональный уровень',
-	levelBand: 'Junior → Mid',
-	strengthsTitle: 'Сильные стороны',
-	strengths: [
-		'• Бэкенд и бизнес-логика',
-		'• Базы данных (включая корпоративный Oracle)',
-		'• Интеграция систем',
-		'• Автоматизация'
-	],
-	growingTitle: 'Развиваюсь в',
-	growing: [
-		'• Масштабирование и распределённые архитектуры',
-		'• Продвинутый cloud и DevOps',
-		'• Продвинутый UI/UX'
-	],
 	stackLines: [
 		'FE: SvelteKit',
 		'Mobile: RN / Capacitor',
