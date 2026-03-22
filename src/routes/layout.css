@@ -8,6 +8,12 @@
 }
 
 @layer base {
+	@media (hover: none) {
+		a,
+		button {
+			-webkit-tap-highlight-color: rgba(34, 211, 238, 0.12);
+		}
+	}
 	html {
 		scroll-behavior: smooth;
 	}

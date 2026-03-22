@@ -2,7 +2,7 @@
 export const site = {
 	name: 'Gavrilencu Grigore',
 	tagline: 'Software Engineer',
-	email: 'contact@gavrilencu.com',
+	email: 'grigoregavrilencu@outlook.com',
 	githubUrl: '',
-	linkedinUrl: ''
+	linkedinUrl: 'https://www.linkedin.com/in/grigore-gavrilencu-3570753b6/'
 } as const;
