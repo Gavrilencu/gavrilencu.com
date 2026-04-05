@@ -66,21 +66,21 @@
 			float n2 = fbm(flow * 2.3 + vec2(13.7, 9.1) + t * 0.03);
 			float n3 = fbm(flow * 5.1 - t * 0.02);
 
-			vec3 deep = vec3(0.02, 0.03, 0.06);
-			vec3 nebA = vec3(0.05, 0.12, 0.14);
-			vec3 nebB = vec3(0.08, 0.06, 0.18);
-			vec3 nebC = vec3(0.2, 0.85, 0.65);
+			vec3 deep = vec3(0.02, 0.04, 0.09);
+			vec3 nebA = vec3(0.06, 0.1, 0.22);
+			vec3 nebB = vec3(0.1, 0.08, 0.2);
+			vec3 nebC = vec3(0.35, 0.55, 1.0);
 
-			vec3 col = mix(deep, nebA, pow(n1, 1.35));
-			col = mix(col, nebB, pow(n2, 2.0) * 0.75);
-			col += nebC * pow(n3, 3.0) * 0.38;
+			vec3 col = mix(deep, nebA, pow(n1, 1.32));
+			col = mix(col, nebB, pow(n2, 2.0) * 0.72);
+			col += nebC * pow(n3, 3.0) * 0.32;
 
 			float band = sin(vWorldDir.y * 5.5 + t * 0.35) * 0.5 + 0.5;
-			col += vec3(0.35, 0.95, 0.72) * band * n2 * 0.16;
-			col += vec3(0.55, 0.45, 1.0) * pow(max(0.0, n1 - 0.45), 2.0) * 0.28;
+			col += vec3(0.4, 0.65, 1.0) * band * n2 * 0.14;
+			col += vec3(1.0, 0.75, 0.35) * pow(max(0.0, n1 - 0.45), 2.0) * 0.22;
 
 			float grid = abs(sin(uv.x * 120.0 + t * 0.5)) * abs(sin(uv.y * 80.0 - t * 0.3));
-			col += vec3(0.45, 0.9, 0.75) * smoothstep(0.92, 1.0, grid) * 0.055;
+			col += vec3(0.5, 0.7, 1.0) * smoothstep(0.92, 1.0, grid) * 0.045;
 
 			float vig = 1.0 - dot(vNdc, vNdc) * 0.28;
 			col *= vig;
@@ -123,7 +123,7 @@
 			if (d > 1.0) discard;
 			float core = exp(-d * 3.5);
 			float rim = exp(-d * 1.2) - core * 0.5;
-			vec3 col = mix(vec3(0.45, 0.95, 0.78), vec3(0.72, 0.62, 1.0), vBlink);
+			vec3 col = mix(vec3(0.45, 0.75, 1.0), vec3(1.0, 0.82, 0.45), vBlink);
 			float alpha = (core * 0.75 + rim * 0.35) * smoothstep(35.0, 8.0, vDepth);
 			gl_FragColor = vec4(col * (0.6 + vBlink * 0.5), alpha);
 		}
@@ -172,7 +172,7 @@
 				antialias: true,
 				powerPreference: 'high-performance'
 			});
-			renderer.setClearColor(0x09090b, 1);
+			renderer.setClearColor(0x020617, 1);
 			renderer.outputColorSpace = THREE.SRGBColorSpace;
 			renderer.toneMapping = THREE.ACESFilmicToneMapping;
 			renderer.toneMappingExposure = mobile ? 1.05 : 1.25;
@@ -191,18 +191,18 @@
 			});
 			scene.add(new THREE.Mesh(skyGeo, skyMat));
 
-			scene.add(new THREE.AmbientLight(0x1a1a2e, 0.45));
-			const p1 = new THREE.PointLight(0x34d399, mobile ? 42 : 130, 80, 2);
+			scene.add(new THREE.AmbientLight(0x1e293b, 0.48));
+			const p1 = new THREE.PointLight(0x3b82f6, mobile ? 44 : 135, 80, 2);
 			p1.position.set(12, 10, 14);
 			scene.add(p1);
-			const p2 = new THREE.PointLight(0x8b5cf6, mobile ? 32 : 100, 75, 2);
+			const p2 = new THREE.PointLight(0x6366f1, mobile ? 34 : 105, 75, 2);
 			p2.position.set(-14, -8, 12);
 			scene.add(p2);
-			const p3 = new THREE.PointLight(0x2dd4bf, mobile ? 20 : 52, 40, 2);
+			const p3 = new THREE.PointLight(0xf59e0b, mobile ? 22 : 55, 40, 2);
 			p3.position.set(0, -12, 8);
 			scene.add(p3);
 
-			const grid = new THREE.GridHelper(56, 56, 0x34d399, 0x52525b);
+			const grid = new THREE.GridHelper(56, 56, 0x3b82f6, 0x475569);
 			grid.position.set(0, -6, -4);
 			const gMat = grid.material;
 			const mats = (Array.isArray(gMat) ? gMat : [gMat]) as LineBasicMaterial[];
@@ -214,8 +214,8 @@
 
 			const icoGeo = new THREE.IcosahedronGeometry(2.45, 1);
 			const icoMat = new THREE.MeshStandardMaterial({
-				color: 0x09090b,
-				emissive: 0x10b981,
+				color: 0x020617,
+				emissive: 0x2563eb,
 				emissiveIntensity: mobile ? 0.55 : 0.95,
 				metalness: 0.92,
 				roughness: 0.18,
@@ -227,7 +227,7 @@
 			const icoGlow = new THREE.Mesh(
 				icoGeo.clone(),
 				new THREE.MeshBasicMaterial({
-					color: 0xfbbf24,
+					color: 0x93c5fd,
 					wireframe: true,
 					transparent: true,
 					opacity: mobile ? 0.12 : 0.22,
@@ -240,8 +240,8 @@
 
 			const dodeGeo = new THREE.DodecahedronGeometry(0.95, 0);
 			const dodeMat = new THREE.MeshStandardMaterial({
-				color: 0x09090b,
-				emissive: 0xa78bfa,
+				color: 0x020617,
+				emissive: 0x7c3aed,
 				emissiveIntensity: 0.7,
 				metalness: 0.88,
 				roughness: 0.2,
@@ -254,7 +254,7 @@
 			const ringOuter = new THREE.Mesh(
 				new THREE.TorusGeometry(5.2, 0.018, 12, 160),
 				new THREE.MeshBasicMaterial({
-					color: 0xfcd34d,
+					color: 0x60a5fa,
 					transparent: true,
 					opacity: 0.45,
 					blending: THREE.AdditiveBlending,
@@ -267,9 +267,9 @@
 			const ringMid = new THREE.Mesh(
 				new THREE.TorusGeometry(4.1, 0.035, 16, 128),
 				new THREE.MeshBasicMaterial({
-					color: 0xc4b5fd,
+					color: 0xa78bfa,
 					transparent: true,
-					opacity: 0.22,
+					opacity: 0.24,
 					blending: THREE.AdditiveBlending,
 					depthWrite: false
 				})
@@ -317,8 +317,8 @@
 			const instN = reduced ? 48 : mobile ? 140 : 320;
 			const octGeo = new THREE.OctahedronGeometry(0.11, 0);
 			const octMat = new THREE.MeshStandardMaterial({
-				color: 0x18181b,
-				emissive: 0x059669,
+				color: 0x0f172a,
+				emissive: 0x1d4ed8,
 				emissiveIntensity: 0.85,
 				metalness: 0.85,
 				roughness: 0.25
@@ -466,6 +466,6 @@
 >
 	<canvas bind:this={canvas} class="block h-full w-full"></canvas>
 	<div
-		class="absolute inset-0 bg-gradient-to-b from-zinc-950/10 via-zinc-950/50 to-zinc-950"
+		class="absolute inset-0 bg-gradient-to-b from-slate-950/15 via-slate-950/55 to-slate-950"
 	></div>
 </div>

@@ -51,28 +51,32 @@
 <svelte:window onkeydown={(e) => e.key === 'Escape' && close()} />
 
 <header
-	class="sticky top-0 z-[100] border-b border-white/[0.06] bg-zinc-950/75 pt-[max(0.5rem,env(safe-area-inset-top))] shadow-sm shadow-black/20 backdrop-blur-xl backdrop-saturate-150 supports-[backdrop-filter]:bg-zinc-950/60"
+	class="sticky top-0 z-[100] border-b border-white/[0.08] bg-slate-950/80 pt-[max(0.5rem,env(safe-area-inset-top))] shadow-[0_8px_32px_-12px_rgba(0,0,0,0.5)] backdrop-blur-xl backdrop-saturate-150 supports-[backdrop-filter]:bg-slate-950/65"
 >
-	<div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 pb-3 sm:px-6 md:pb-3.5">
+	<div
+		class="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-500/35 to-transparent"
+		aria-hidden="true"
+	></div>
+	<div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 pb-3.5 sm:px-6 md:pb-4">
 		<a
 			href="/"
-			class="group flex min-h-11 min-w-0 shrink-0 items-center gap-3 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/40"
+			class="group flex min-h-11 min-w-0 shrink-0 items-center gap-3 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50"
 			onclick={close}
 		>
 			<span
-				class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/15 font-mono text-xs font-semibold text-emerald-300 ring-1 ring-emerald-500/25 transition group-hover:bg-emerald-500/25 sm:h-10 sm:w-10 sm:text-sm"
+				class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/30 to-indigo-600/25 font-mono text-xs font-bold text-blue-100 ring-1 ring-blue-400/30 transition group-hover:ring-amber-400/35 sm:text-sm"
 			>
 				{initials}
 			</span>
-			<span class="min-w-0 truncate font-medium text-white sm:max-w-none">{site.name.split(' ')[0]}</span>
+			<span class="min-w-0 truncate font-semibold text-white sm:max-w-none">{site.name.split(' ')[0]}</span>
 		</a>
 
-		<div class="hidden items-center gap-6 md:flex">
-			<nav class="flex items-center gap-1 text-sm" aria-label="Main">
+		<div class="hidden items-center gap-7 md:flex">
+			<nav class="flex items-center gap-0.5 text-sm font-medium" aria-label="Main">
 				{#each nav as item}
 					<a
 						href={item.href}
-						class="nav-pill relative rounded-lg px-3 py-2 font-medium text-zinc-500 transition-colors duration-200 hover:text-white"
+						class="nav-pill relative rounded-lg px-3.5 py-2.5 text-slate-400 transition-colors duration-200 hover:text-white"
 					>
 						{item.label}
 					</a>
@@ -85,16 +89,16 @@
 			<LangSwitch variant="mobile" />
 			<button
 				type="button"
-				class="touch-manipulation rounded-lg border border-white/10 bg-white/[0.04] p-2.5 text-zinc-200 transition hover:border-emerald-500/30 hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/40"
+				class="touch-manipulation min-h-11 min-w-11 rounded-xl border border-white/12 bg-slate-900/60 p-2.5 text-slate-100 shadow-md backdrop-blur-sm transition hover:border-blue-500/35 hover:bg-slate-800/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50"
 				aria-expanded={open}
 				aria-controls="site-mobile-nav"
 				aria-label={open ? a11yCloseMenu : a11yOpenMenu}
 				onclick={toggle}
 			>
 				{#if open}
-					<X class="h-6 w-6" strokeWidth={2} />
+					<X class="mx-auto h-6 w-6" strokeWidth={2} />
 				{:else}
-					<Menu class="h-6 w-6" strokeWidth={2} />
+					<Menu class="mx-auto h-6 w-6" strokeWidth={2} />
 				{/if}
 			</button>
 		</div>
@@ -110,20 +114,20 @@
 	>
 		<button
 			type="button"
-			class="absolute inset-0 bg-zinc-950/90 backdrop-blur-md"
+			class="absolute inset-0 bg-slate-950/92 backdrop-blur-md"
 			aria-label={a11yCloseOverlay}
 			onclick={close}
 		></button>
 		<nav
 			id="site-mobile-nav"
-			class="absolute right-0 top-0 flex h-full w-[min(100vw-3rem,19rem)] flex-col border-l border-white/[0.08] bg-zinc-950 px-3 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[max(5.5rem,calc(env(safe-area-inset-top)+4rem))]"
+			class="absolute right-0 top-0 flex h-full w-[min(100vw-2.5rem,20rem)] flex-col border-l border-white/10 bg-slate-950/98 px-3 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[max(5.5rem,calc(env(safe-area-inset-top)+4rem))] shadow-[-20px_0_60px_rgba(0,0,0,0.45)]"
 		>
-			<ul class="flex flex-col gap-0.5">
+			<ul class="flex flex-col gap-1">
 				{#each nav as item}
 					<li>
 						<a
 							href={item.href}
-							class="block rounded-lg px-4 py-3.5 text-base font-medium text-zinc-200 transition hover:bg-white/[0.05] hover:text-white active:bg-white/10"
+							class="block min-h-12 rounded-xl px-4 py-3.5 text-base font-semibold text-slate-200 transition hover:bg-blue-500/10 hover:text-white active:bg-white/5"
 							onclick={close}
 						>
 							{item.label}
@@ -141,16 +145,16 @@
 			content: '';
 			position: absolute;
 			left: 50%;
-			bottom: 4px;
+			bottom: 5px;
 			width: 0;
 			height: 2px;
 			border-radius: 2px;
-			background: linear-gradient(90deg, #34d399, #a78bfa);
+			background: linear-gradient(90deg, #60a5fa, #fbbf24);
 			transform: translateX(-50%);
-			transition: width 0.25s ease;
+			transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 		}
 		.nav-pill:hover::after {
-			width: 60%;
+			width: 65%;
 		}
 	}
 </style>

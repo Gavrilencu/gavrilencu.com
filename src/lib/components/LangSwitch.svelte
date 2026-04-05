@@ -21,7 +21,7 @@
 </script>
 
 <div
-	class="flex shrink-0 items-center rounded-xl border border-white/10 bg-white/[0.04] font-bold tracking-wide {isMobile
+	class="flex shrink-0 items-center rounded-xl border border-white/12 bg-slate-900/50 font-bold tracking-wide backdrop-blur-sm {isMobile
 		? 'gap-0.5 p-1 text-sm'
 		: 'rounded-lg p-0.5 text-xs'}"
 	role="group"
@@ -34,8 +34,8 @@
 			class="rounded-lg text-center transition {isMobile
 				? 'min-h-11 min-w-[3rem] px-3 py-2.5'
 				: 'px-3 py-2 sm:px-2.5 sm:py-1.5'} {locale === opt.code
-				? 'bg-emerald-500/20 text-emerald-100'
-				: 'text-zinc-500 hover:bg-white/5 hover:text-zinc-200'}"
+				? 'bg-blue-500/25 text-blue-50 shadow-sm shadow-blue-500/10'
+				: 'text-slate-500 hover:bg-white/5 hover:text-slate-100'}"
 			aria-current={locale === opt.code ? 'true' : undefined}
 		>
 			{opt.label}
